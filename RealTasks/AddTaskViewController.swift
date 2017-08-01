@@ -8,24 +8,20 @@
 
 import UIKit
 
+protocol AddTaskDelegate: class {
+    func passTaskName(_ name: String!)
+}
+
 class AddTaskViewController: UIViewController {
 
+    @IBOutlet weak var taskTextField: UITextField!
+    
+    //let alertController = UIAlertController(title: "Error", message: "Task is blank", preferredStyle: .alert)
+    weak var delegate: AddTaskDelegate?
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-//        let navBar: UINavigationBar = UINavigationBar(frame: CGRect(x:0, y:0, width:320, height:44))
-//        self.view.addSubview(navBar)
-//        
-//        let navItem = UINavigationItem(title: "Add Task")
-//        
-//        let cancelItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel, target: nil, action: #selector(onCancelButton(_:)))
-//        let saveItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.save, target: nil, action: #selector(onSaveButton(_:)))
-//        
-//        navItem.leftBarButtonItem = cancelItem
-//        navItem.rightBarButtonItem = saveItem
-//        navBar.setItems([navItem], animated: false)
-
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
@@ -34,13 +30,17 @@ class AddTaskViewController: UIViewController {
     }
     
     @IBAction func onCancelButton(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
         print("Cancel button pressed")
+        self.dismiss(animated: true, completion: nil)
     }
     
     @IBAction func onSaveButton(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+        let task = taskTextField.text!
+        delegate?.passTaskName(task)
+        
         print("Save button pressed")
+        self.dismiss(animated: true, completion: nil)
+
     }
 
     /*
