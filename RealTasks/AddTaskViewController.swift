@@ -13,6 +13,18 @@ class AddTaskViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+//        let navBar: UINavigationBar = UINavigationBar(frame: CGRect(x:0, y:0, width:320, height:44))
+//        self.view.addSubview(navBar)
+//        
+//        let navItem = UINavigationItem(title: "Add Task")
+//        
+//        let cancelItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel, target: nil, action: #selector(onCancelButton(_:)))
+//        let saveItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.save, target: nil, action: #selector(onSaveButton(_:)))
+//        
+//        navItem.leftBarButtonItem = cancelItem
+//        navItem.rightBarButtonItem = saveItem
+//        navBar.setItems([navItem], animated: false)
+
         // Do any additional setup after loading the view.
     }
 
