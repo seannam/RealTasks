@@ -12,6 +12,8 @@
 		B5811B051F30F40100452A59 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5811B031F30F40100452A59 /* Main.storyboard */; };
 		B5811B071F30F40100452A59 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B5811B061F30F40100452A59 /* Assets.xcassets */; };
 		B5811B0A1F30F40100452A59 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5811B081F30F40100452A59 /* LaunchScreen.storyboard */; };
+		B5811B131F30F60800452A59 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5811B121F30F60800452A59 /* Task.swift */; };
+		B5C27C001F3101DE00B26C0D /* AddTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C27BFF1F3101DE00B26C0D /* AddTaskViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +24,8 @@
 		B5811B061F30F40100452A59 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B5811B091F30F40100452A59 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B5811B0B1F30F40100452A59 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B5811B121F30F60800452A59 /* Task.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
+		B5C27BFF1F3101DE00B26C0D /* AddTaskViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTaskViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,14 +58,32 @@
 		B5811AFE1F30F40100452A59 /* RealTasks */ = {
 			isa = PBXGroup;
 			children = (
+				B5C27BFE1F3101A800B26C0D /* View Controllers */,
+				B5811B111F30F5E600452A59 /* Models */,
 				B5811AFF1F30F40100452A59 /* AppDelegate.swift */,
-				B5811B011F30F40100452A59 /* ViewController.swift */,
 				B5811B031F30F40100452A59 /* Main.storyboard */,
 				B5811B061F30F40100452A59 /* Assets.xcassets */,
 				B5811B081F30F40100452A59 /* LaunchScreen.storyboard */,
 				B5811B0B1F30F40100452A59 /* Info.plist */,
 			);
 			path = RealTasks;
+			sourceTree = "<group>";
+		};
+		B5811B111F30F5E600452A59 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B5811B121F30F60800452A59 /* Task.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		B5C27BFE1F3101A800B26C0D /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				B5811B011F30F40100452A59 /* ViewController.swift */,
+				B5C27BFF1F3101DE00B26C0D /* AddTaskViewController.swift */,
+			);
+			name = "View Controllers";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,6 +160,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				B5811B021F30F40100452A59 /* ViewController.swift in Sources */,
+				B5C27C001F3101DE00B26C0D /* AddTaskViewController.swift in Sources */,
+				B5811B131F30F60800452A59 /* Task.swift in Sources */,
 				B5811B001F30F40100452A59 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -302,6 +326,7 @@
 				B5811B101F30F40100452A59 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
