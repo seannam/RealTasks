@@ -9,30 +9,10 @@
 import UIKit
 
 class TaskCell: UITableViewCell {
-
-//    @IBOutlet weak var usernameLabel: UILabel!
-//    
-//    @IBOutlet weak var profileThumbnailImageView: UIImageView!
-//    @IBOutlet weak var postImageView: UIImageView!
-//    
-//    @IBOutlet weak var commentLabel: UILabel!
-//    
-//    var post: PFObject? {
-//        didSet {
-//            self.commentLabel.text = post?["caption"] as? String
-//            self.usernameLabel.text = post?["author"] as? String
-//            
-//            if let postImage = post?["media"] as? PFFile {
-//                postImage.getDataInBackground(block: { (imageData: Data?, error: Error?) in
-//                    if let imageData = imageData {
-//                        self.postImageView.image = UIImage.init(data: imageData)
-//                    }
-//                })
-//            }
-//        }
-//    }
     
-    @IBOutlet weak var taskTextField: UITextField!    
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var dueDateLabel: UILabel!
+    @IBOutlet weak var priorityLevelLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -45,4 +25,11 @@ class TaskCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+    @IBAction func editTask(_ sender: Any) {
+        
+        //let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+    }
+    
+    
 }

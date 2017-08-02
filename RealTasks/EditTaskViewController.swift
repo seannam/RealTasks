@@ -1,5 +1,5 @@
 //
-//  AddTaskViewController.swift
+//  EditTaskViewController.swift
 //  RealTasks
 //
 //  Created by Sean Nam on 8/1/17.
@@ -8,44 +8,54 @@
 
 import UIKit
 
-protocol AddTaskDelegate: class {
-    func passTask(_ name: String!, _ priority: Int, _ dueDate: String!)
-}
+class EditTaskViewController: UIViewController {
 
-class AddTaskViewController: UIViewController {
-
-    @IBOutlet weak var taskTextField: UITextField!
+    @IBOutlet weak var taskNameTextField: UITextField!
     @IBOutlet weak var prioritySegementedControl: UISegmentedControl!
     @IBOutlet weak var dueDateTextField: UITextField!
     
-    weak var delegate: AddTaskDelegate?
-
+    var taskName: String?
+    var priorityLevel: Int?
+    var dueDate: String?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        if taskName != nil {
+            taskNameTextField.text = taskName
+        }
         
-        taskTextField.becomeFirstResponder()
+        if dueDate != nil {
+            dueDateTextField.text = dueDate
+        }
+        
+        if priorityLevel != nil {
+            prioritySegementedControl.selectedSegmentIndex = priorityLevel!
+        }
+        
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    @IBAction func onCancelButton(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
-    }
-    
-    @IBAction func onSaveButton(_ sender: Any) {
-        let taskName = taskTextField.text!
-        let priorityLevel = prioritySegementedControl.selectedSegmentIndex
-        let dueDate = dueDateTextField.text!
-        
-        delegate?.passTask(taskName, priorityLevel, dueDate)
+    @IBAction func onDone(_ sender: Any) {
         
         self.dismiss(animated: true, completion: nil)
     }
-
+    
+    @IBAction func onCancel(_ sender: Any) {
+        print("cancel")
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func onSave(_ sender: Any) {
+        print("saving")
+        dismiss(animated: true, completion: nil)
+        //self.dismiss(animated: true, completion: nil)
+    }
+    
     /*
     // MARK: - Navigation
 

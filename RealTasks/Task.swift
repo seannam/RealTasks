@@ -8,12 +8,15 @@
 
 import UIKit
 
+
 class Task: NSObject {
     
-    var taskName = ""
-    var taskDetails = ""
-    var priority = 0
-    var dueDate = ""
-    var createdDate = ""
+    var taskName: String?
+    var priority: Int?
+    var dueDate: Date?
+    var createdDate: Date?
 
+//    func saveTask(_ name: String!, _ priority: Int, _ dueDate: String!) {
+//        
+//    }
 }
