@@ -9,47 +9,32 @@
 import UIKit
 import RealmSwift
 
-class ViewController: UIViewController, UITableViewDataSource, AddTaskViewControllerDelegate, EditTaskViewControllerDelegate, UISearchResultsUpdating {
+class ViewController: UIViewController, UITableViewDataSource, AddTaskViewControllerDelegate, EditTaskViewControllerDelegate, SettingsViewControllerDelegate, UISearchResultsUpdating {
 
     @IBOutlet weak var taskTableView: UITableView!
 
-    //let searchController = UISearchController(searchResultsController: nil)
     var searchController: UISearchController!
-    
+    var settingsDidChange = false
+    var sortIndex: Int!
     var realm: Realm!
-//    var searchResults = Results<Todo>();
     var taskList: Results<Todo> {
         get {
             return realm.objects(Todo.self)
         }
     }
+    var todoList = List<Todo>()
    
-    //var searchResults = Results<Todo>{}
     var searchResults = try! Realm().objects(Todo.self)
-    //var searchResults = taskList
-//    var searchResults: Results<Todo> {
-//        get {
-//            return realm.objects(Todo.self)
-//        }
-//    }
-    
-    var tasks = List<Todo>()
+    var sortedList = try! Realm().objects(Todo.self)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.automaticallyAdjustsScrollViewInsets = false
-
-        // Do any additional setup after loading the view, typically from a nib.
-        taskTableView.dataSource = self
+        self.taskTableView.dataSource = self
 
         realm = try! Realm()
-        
-        for Todo in taskList {
-            tasks.append(Todo)
-        }
-        
-        // Sets this view controller as presenting view controller for the search interface
+
         definesPresentationContext = true
         searchController = UISearchController(searchResultsController: nil)
         searchController.searchBar.sizeToFit()
@@ -61,7 +46,11 @@ class ViewController: UIViewController, UITableViewDataSource, AddTaskViewContro
     
     override func viewDidAppear(_ animated: Bool) {
         self.taskTableView.reloadData()
-
+        
+        for todo in taskList {
+            todoList.append(todo)
+        }
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -78,6 +67,17 @@ class ViewController: UIViewController, UITableViewDataSource, AddTaskViewContro
                 viewController.delegate = self
             }
         }
+
+        if segue.identifier == "SettingsSegue" {
+            let navController = segue.destination as? UINavigationController
+            let settingsVC = navController?.topViewController as? SettingsViewController
+            
+            if let viewController = settingsVC {
+                viewController.delegate = self
+            }
+            settingsVC?.selectedIndex = self.sortIndex
+        }
+
         
         if segue.identifier == "TaskDetailSegue" {
             let cell = sender as! TaskCell
@@ -95,7 +95,6 @@ class ViewController: UIViewController, UITableViewDataSource, AddTaskViewContro
             editTaskVC.dueDateString = dueDateString
             editTaskVC.taskName = task.taskName
             editTaskVC.priorityLevel = Int(task.priorityLevel)
-            //editTaskVC.index = indexPath?.row
             editTaskVC.taskId = task.taskId
             
         }
@@ -105,10 +104,12 @@ class ViewController: UIViewController, UITableViewDataSource, AddTaskViewContro
         self.taskTableView.setEditing(!taskTableView.isEditing, animated: true)
         
         if taskTableView.isEditing == true {
-            navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(editTasks(_:)))
+            navigationItem.rightBarButtonItems?[0] = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(editTasks(_:)))
+//            navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(editTasks(_:)))
         }
         if taskTableView.isEditing == false {
-            navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editTasks(_:)))
+            navigationItem.rightBarButtonItems?[0] = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editTasks(_:)))
+            //navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editTasks(_:)))
         }
     }
     
@@ -120,6 +121,11 @@ class ViewController: UIViewController, UITableViewDataSource, AddTaskViewContro
 
         let cell = taskTableView.dequeueReusableCell(withIdentifier: "TaskCell", for: indexPath) as! TaskCell
         var task = taskList[indexPath.row]
+        
+        if settingsDidChange {
+            task = sortedList[indexPath.row]
+        }
+        
         if searchController.isActive {
             if indexPath.row < searchResults.count {
                 task = searchResults[indexPath.row]
@@ -173,10 +179,13 @@ class ViewController: UIViewController, UITableViewDataSource, AddTaskViewContro
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
 
-//        try! self.realm?.write {
-//            tasks.move(from: sourceIndexPath.row, to: destinationIndexPath.row)
-//            print("rearranging")
-//        }
+        try! todoList.realm?.write {
+            todoList.move(from: sourceIndexPath.row, to: destinationIndexPath.row)
+            print("rearranging")
+            //print(todoList)
+            print(sourceIndexPath.row)
+            print(destinationIndexPath.row)
+        }
     }
     
     func addTask() {
@@ -185,7 +194,6 @@ class ViewController: UIViewController, UITableViewDataSource, AddTaskViewContro
     
     func editTask(_ taskId: String!) {
         self.taskTableView.reloadData()
-        //print("rowIndex in VC = \(rowIndex!)")
         //self.taskTableView.reloadRows(at: [IndexPath.init(row:rowIndex, section: 0)], with: .automatic)
     }
     
@@ -198,6 +206,32 @@ class ViewController: UIViewController, UITableViewDataSource, AddTaskViewContro
             print(searchResults)
             
             taskTableView.reloadData()
+        }
+    }
+    
+    func saveSettings(_ sortIndex: Int!) {
+        self.settingsDidChange = true
+        self.sortIndex = sortIndex
+        
+        switch sortIndex {
+        case 0:
+            // priorities - high to low
+            sortedList = realm.objects(Todo.self).sorted(byKeyPath: "priorityLevel", ascending: false)
+            break
+        case 1:
+            // priorities - low to high
+            sortedList = realm.objects(Todo.self).sorted(byKeyPath: "priorityLevel", ascending: true)
+            break
+        case 2:
+            // due date - earliest to latest
+            sortedList = realm.objects(Todo.self).sorted(byKeyPath: "dueDate", ascending: true)
+            break
+        case 3:
+            // due date - latest to earliest
+            sortedList = realm.objects(Todo.self).sorted(byKeyPath: "dueDate", ascending: false)
+            break
+        default:
+            break
         }
     }
     
