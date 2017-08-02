@@ -74,6 +74,8 @@ class ViewController: UIViewController, UITableViewDataSource, AddTaskDelegate {
         cell.nameLabel.text = data[indexPath.row]
         cell.dueDateLabel.text = dueDateList[indexPath.row]
         cell.priorityLevelLabel.text = priorityList[indexPath.row]
+        
+        cell.selectionStyle = UITableViewCellSelectionStyle.none
         return cell
     }
     
@@ -81,6 +83,12 @@ class ViewController: UIViewController, UITableViewDataSource, AddTaskDelegate {
         return data.count
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        taskTableView.deselectRow(at: indexPath, animated: true)
+        taskTableView.reloadRows(at: [indexPath], with: .automatic)
+
+    }
+
     private func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 0.0000001
     }
