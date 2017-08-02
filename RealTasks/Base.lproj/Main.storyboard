@@ -76,7 +76,11 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <navigationItem key="navigationItem" title="Tasks" id="gpf-ao-IAq">
-                        <barButtonItem key="leftBarButtonItem" systemItem="organize" id="D9k-4m-8ht"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="edit" id="D9k-4m-8ht">
+                            <connections>
+                                <action selector="editTasks:" destination="BYZ-38-t0r" id="fIQ-DH-aWG"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="4r5-8f-1BD">
                             <connections>
                                 <segue destination="AHv-LY-n45" kind="presentation" identifier="AddTaskSegue" id="s5W-4H-akB"/>

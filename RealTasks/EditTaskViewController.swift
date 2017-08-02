@@ -7,6 +7,11 @@
 //
 
 import UIKit
+import RealmSwift
+
+protocol EditTaskViewControllerDelegate: class {
+    func editTask(_ rowIndex: Int!)
+}
 
 class EditTaskViewController: UIViewController {
 
@@ -14,25 +19,46 @@ class EditTaskViewController: UIViewController {
     @IBOutlet weak var prioritySegementedControl: UISegmentedControl!
     @IBOutlet weak var dueDateTextField: UITextField!
     
+    weak var delegate: EditTaskViewControllerDelegate?
+    
     var taskName: String?
     var priorityLevel: Int?
-    var dueDate: String?
+    var dueDate: Date?
+    var dueDateString: String?
+    var index: Int!
+    var taskId: String?
     
+    var realm = try! Realm()
+    var taskList: Results<Todo> {
+        get {
+            return realm.objects(Todo.self)
+        }
+    }
+    var tasks = List<Todo>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        realm = try! Realm()
+        
+        for Todo in taskList {
+            tasks.append(Todo)
+        }
+        
         if taskName != nil {
             taskNameTextField.text = taskName
         }
         
-        if dueDate != nil {
-            dueDateTextField.text = dueDate
+        if dueDateString != nil {
+            dueDateTextField.text = dueDateString
         }
         
         if priorityLevel != nil {
             prioritySegementedControl.selectedSegmentIndex = priorityLevel!
         }
+        
+        print("priorityLevel value in EditTask = \(String(priorityLevel!))")
+        print("index value in EditTask = \(String(index!))")
         
     }
 
@@ -40,7 +66,27 @@ class EditTaskViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
     @IBAction func onDone(_ sender: Any) {
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd/yyyy"
+        let dueDate = dateFormatter.date(from: dueDateTextField.text!)
+        
+        taskName = taskNameTextField.text
+        priorityLevel = prioritySegementedControl.selectedSegmentIndex
+        
+        let updateTask = Todo()
+        updateTask.taskName = taskName!
+        updateTask.dueDate = dueDate! as NSDate
+        updateTask.priorityLevel = String(priorityLevel!)
+        updateTask.done = false
+        updateTask.taskId = self.taskId!
+        
+        try! realm.write {
+            delegate?.editTask(index)
+            realm.add(updateTask, update: true)
+        }
         
         self.dismiss(animated: true, completion: nil)
     }

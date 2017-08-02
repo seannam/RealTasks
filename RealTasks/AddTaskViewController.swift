@@ -9,9 +9,8 @@
 import UIKit
 import RealmSwift
 
-protocol AddTaskDelegate: class {
-    func addTask(_ name: String!, _ priority: Int, _ dueDate: NSDate!)
-    //func saveTask(_ task: Task)
+protocol AddTaskViewControllerDelegate: class {
+    func addTask()
 }
 
 class AddTaskViewController: UIViewController {
@@ -20,9 +19,10 @@ class AddTaskViewController: UIViewController {
     @IBOutlet weak var prioritySegementedControl: UISegmentedControl!
     @IBOutlet weak var dueDateTextField: UITextField!
     
-    weak var delegate: AddTaskDelegate?
+    weak var delegate: AddTaskViewControllerDelegate?
     
     let realm = try! Realm()
+    var tasks = List<Todo>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,23 +47,27 @@ class AddTaskViewController: UIViewController {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM/dd/yyyy"
         let dueDate = dateFormatter.date(from: dueDateString)
-        
-        let task = Task(taskName: taskName, priorityLevel: priorityLevel, dueDate: dueDate! as NSDate)
-        task.saveTask()
-        
-        //delegate?.saveTask(task)
-        
-        
+
         let newTask = Todo()
-        newTask.taskName = taskName
-        newTask.dueDate = dueDate! as NSDate
+        
+        if !taskName.isEmpty {
+            newTask.taskName = taskName
+        } else {
+            newTask.taskName = "Untitled"
+        }
+        
+        if !dueDateString.isEmpty {
+            newTask.dueDate = dueDate! as NSDate
+        }
+        
         newTask.priorityLevel = String(priorityLevel)
         newTask.done = false
+        newTask.taskId = String(NSUUID().uuidString)
         
         try! self.realm.write({
             self.realm.add(newTask)
             print("Adding task to Realm DB")
-            delegate?.addTask(taskName, priorityLevel, dueDate! as NSDate)
+            delegate?.addTask()
         })
         self.dismiss(animated: true, completion: nil)
     }

@@ -25,12 +25,5 @@ class TaskCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    
-//    override init(style: UITableViewCellStyle, reuseIdentifier: String!) {
-//        super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
-//    }
-//    
-//    required init(coder: NSCoder) {
-//        fatalError("NSCoding not supported")
-//    }
+
 }

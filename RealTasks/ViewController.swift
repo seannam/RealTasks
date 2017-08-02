@@ -9,7 +9,7 @@
 import UIKit
 import RealmSwift
 
-class ViewController: UIViewController, UITableViewDataSource, AddTaskDelegate {
+class ViewController: UIViewController, UITableViewDataSource, AddTaskViewControllerDelegate, EditTaskViewControllerDelegate {
 
     @IBOutlet weak var taskTableView: UITableView!
 
@@ -20,6 +20,7 @@ class ViewController: UIViewController, UITableViewDataSource, AddTaskDelegate {
             return realm.objects(Todo.self)
         }
     }
+    var tasks = List<Todo>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,9 +32,14 @@ class ViewController: UIViewController, UITableViewDataSource, AddTaskDelegate {
 
         realm = try! Realm()
         
-
+        for Todo in taskList {
+            tasks.append(Todo)
+        }
+        
     }
+    
     override func viewDidAppear(_ animated: Bool) {
+        self.taskTableView.reloadData()
     }
     
     override func didReceiveMemoryWarning() {
@@ -62,12 +68,27 @@ class ViewController: UIViewController, UITableViewDataSource, AddTaskDelegate {
             dateFormatter.dateFormat = "MM/dd/yyyy"
             let dueDateString = dateFormatter.string(from: task.dueDate as Date)
             
-            editTaskVC.dueDate = dueDateString
-            
+            editTaskVC.dueDate = task.dueDate as Date
+            editTaskVC.dueDateString = dueDateString
             editTaskVC.taskName = task.taskName
             editTaskVC.priorityLevel = Int(task.priorityLevel)
+            editTaskVC.index = indexPath?.row
+            editTaskVC.taskId = task.taskId
+            
+            print("priorityLevel value in ViewController = \(task.priorityLevel)")
+            print("index value in ViewController = \(String((indexPath?.row)!))")
         }
 
+    }
+    @IBAction func editTasks(_ sender: Any) {
+        self.taskTableView.setEditing(!taskTableView.isEditing, animated: true)
+        
+        if taskTableView.isEditing == true {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(editTasks(_:)))
+        }
+        if taskTableView.isEditing == false {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editTasks(_:)))
+        }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -77,7 +98,6 @@ class ViewController: UIViewController, UITableViewDataSource, AddTaskDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell = taskTableView.dequeueReusableCell(withIdentifier: "TaskCell", for: indexPath) as! TaskCell
-        
         let task = taskList[indexPath.row]
         
         let dateFormatter = DateFormatter()
@@ -97,14 +117,13 @@ class ViewController: UIViewController, UITableViewDataSource, AddTaskDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        taskTableView.deselectRow(at: indexPath, animated: true)
-        taskTableView.reloadRows(at: [indexPath], with: .automatic)
         
         let task = taskList[indexPath.row]
         try! self.realm.write({
             task.done = !task.done
         })
         
+        taskTableView.deselectRow(at: indexPath, animated: true)
         taskTableView.reloadRows(at: [indexPath], with: .automatic)
     }
     
@@ -123,16 +142,22 @@ class ViewController: UIViewController, UITableViewDataSource, AddTaskDelegate {
         return true
     }
     
-    func addTask(_ name: String!, _ priority: Int, _ dueDate: NSDate!) {
-        
-//        let lastSectionIndex = self.taskTableView.numberOfSections - 1
-//        let lastRowIndex = self.taskTableView.numberOfRows(inSection: lastSectionIndex) - 1
-//        print("lastRowIndex=\(lastRowIndex)")
-//        let indexPath = NSIndexPath(row: lastRowIndex+1, section: lastSectionIndex) as IndexPath
-//        taskTableView.reloadRows(at: [indexPath], with: .automatic)
-        
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+
+//        try! self.realm?.write {
+//            tasks.move(from: sourceIndexPath.row, to: destinationIndexPath.row)
+//            print("rearranging")
+//        }
+    }
+    
+    func addTask() {
         self.taskTableView.insertRows(at: [IndexPath.init(row:self.taskList.count-1, section: 0)], with: .automatic)
-        print("addTask")
+    }
+    
+    func editTask(_ rowIndex: Int!) {
+        self.taskTableView.reloadData()
+        print("rowIndex in VC = \(rowIndex!)")
+        self.taskTableView.reloadRows(at: [IndexPath.init(row:rowIndex, section: 0)], with: .automatic)
     }
     
 }

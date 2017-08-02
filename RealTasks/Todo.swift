@@ -14,6 +14,13 @@ class Todo: Object {
     dynamic var priorityLevel = ""
     dynamic var dueDate = NSDate()
     dynamic var done = false
+
+    dynamic var taskId = ""
+    
+    override static func primaryKey() -> String? {
+        return "taskId"
+    }
+    
 }
 
 //class TaskList: Object {
