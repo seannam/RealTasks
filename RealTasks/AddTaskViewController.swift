@@ -60,7 +60,7 @@ class AddTaskViewController: UIViewController {
             newTask.dueDate = dueDate! as NSDate
         }
         
-        newTask.priorityLevel = String(priorityLevel)
+        newTask.priorityLevel = priorityLevel
         newTask.done = false
         newTask.taskId = String(NSUUID().uuidString)
         

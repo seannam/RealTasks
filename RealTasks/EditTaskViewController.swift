@@ -10,7 +10,7 @@ import UIKit
 import RealmSwift
 
 protocol EditTaskViewControllerDelegate: class {
-    func editTask(_ rowIndex: Int!)
+    func editTask(_ taskId: String!)
 }
 
 class EditTaskViewController: UIViewController {
@@ -25,7 +25,7 @@ class EditTaskViewController: UIViewController {
     var priorityLevel: Int?
     var dueDate: Date?
     var dueDateString: String?
-    var index: Int!
+    //var index: Int!
     var taskId: String?
     
     var realm = try! Realm()
@@ -57,9 +57,6 @@ class EditTaskViewController: UIViewController {
             prioritySegementedControl.selectedSegmentIndex = priorityLevel!
         }
         
-        print("priorityLevel value in EditTask = \(String(priorityLevel!))")
-        print("index value in EditTask = \(String(index!))")
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -79,12 +76,13 @@ class EditTaskViewController: UIViewController {
         let updateTask = Todo()
         updateTask.taskName = taskName!
         updateTask.dueDate = dueDate! as NSDate
-        updateTask.priorityLevel = String(priorityLevel!)
+        updateTask.priorityLevel = priorityLevel!
         updateTask.done = false
         updateTask.taskId = self.taskId!
         
         try! realm.write {
-            delegate?.editTask(index)
+            delegate?.editTask(taskId)
+            print("Updating existing task to Realm DB")
             realm.add(updateTask, update: true)
         }
         
