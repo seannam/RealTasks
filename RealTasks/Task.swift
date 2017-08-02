@@ -8,7 +8,6 @@
 
 import UIKit
 
-
 class Task: NSObject {
     
     var taskName: String?
@@ -21,6 +20,7 @@ class Task: NSObject {
         self.priorityLevel = priorityLevel
         self.dueDate = dueDate
     }
+
     
     func saveTask() {
         

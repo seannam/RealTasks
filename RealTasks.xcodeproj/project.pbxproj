@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B55DA03E1F314C6300D994DB /* EditTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55DA03D1F314C6300D994DB /* EditTaskViewController.swift */; };
+		B55DA0401F3167B900D994DB /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55DA03F1F3167B900D994DB /* Todo.swift */; };
 		B5811B001F30F40100452A59 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5811AFF1F30F40100452A59 /* AppDelegate.swift */; };
 		B5811B021F30F40100452A59 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5811B011F30F40100452A59 /* ViewController.swift */; };
 		B5811B051F30F40100452A59 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5811B031F30F40100452A59 /* Main.storyboard */; };
@@ -23,6 +24,7 @@
 		4C72BAD576C6CE0839E2C0A7 /* Pods-RealTasks.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RealTasks.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RealTasks/Pods-RealTasks.debug.xcconfig"; sourceTree = "<group>"; };
 		B4C4370E77B1DA528AAA5062 /* Pods_RealTasks.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RealTasks.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B55DA03D1F314C6300D994DB /* EditTaskViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditTaskViewController.swift; sourceTree = "<group>"; };
+		B55DA03F1F3167B900D994DB /* Todo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Todo.swift; sourceTree = "<group>"; };
 		B5811AFC1F30F40100452A59 /* RealTasks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RealTasks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5811AFF1F30F40100452A59 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B5811B011F30F40100452A59 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -93,7 +95,6 @@
 				B5811B061F30F40100452A59 /* Assets.xcassets */,
 				B5811B081F30F40100452A59 /* LaunchScreen.storyboard */,
 				B5811B0B1F30F40100452A59 /* Info.plist */,
-				B5C27C011F310AAC00B26C0D /* TaskCell.swift */,
 			);
 			path = RealTasks;
 			sourceTree = "<group>";
@@ -102,6 +103,8 @@
 			isa = PBXGroup;
 			children = (
 				B5811B121F30F60800452A59 /* Task.swift */,
+				B5C27C011F310AAC00B26C0D /* TaskCell.swift */,
+				B55DA03F1F3167B900D994DB /* Todo.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -243,6 +246,7 @@
 				B5811B021F30F40100452A59 /* ViewController.swift in Sources */,
 				B5C27C001F3101DE00B26C0D /* AddTaskViewController.swift in Sources */,
 				B5811B131F30F60800452A59 /* Task.swift in Sources */,
+				B55DA0401F3167B900D994DB /* Todo.swift in Sources */,
 				B5811B001F30F40100452A59 /* AppDelegate.swift in Sources */,
 				B55DA03E1F314C6300D994DB /* EditTaskViewController.swift in Sources */,
 				B5C27C021F310AAC00B26C0D /* TaskCell.swift in Sources */,

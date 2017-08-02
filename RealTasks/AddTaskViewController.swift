@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 protocol AddTaskDelegate: class {
     func passTask(_ name: String!, _ priority: Int, _ dueDate: String!)
@@ -19,7 +20,8 @@ class AddTaskViewController: UIViewController {
     @IBOutlet weak var dueDateTextField: UITextField!
     
     weak var delegate: AddTaskDelegate?
-
+    
+    let realm = try! Realm()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,6 +49,16 @@ class AddTaskViewController: UIViewController {
         //delegate?.saveTask(task)
         delegate?.passTask(taskName, priorityLevel, dueDate)
         
+        let newTask = Todo()
+        newTask.taskName = taskName
+        newTask.dueDate = dueDate
+        newTask.priorityLevel = String(priorityLevel)
+        newTask.done = false
+        
+        try! self.realm.write({
+            self.realm.add(newTask)
+            print("Adding task to Realm DB")
+        })
         self.dismiss(animated: true, completion: nil)
     }
 
