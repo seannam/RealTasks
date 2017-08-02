@@ -24,12 +24,5 @@ class TaskCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
-    @IBAction func editTask(_ sender: Any) {
-        
-        //let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        
-    }
-    
     
 }

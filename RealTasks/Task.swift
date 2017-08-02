@@ -12,11 +12,17 @@ import UIKit
 class Task: NSObject {
     
     var taskName: String?
-    var priority: Int?
-    var dueDate: Date?
-    var createdDate: Date?
-
-//    func saveTask(_ name: String!, _ priority: Int, _ dueDate: String!) {
-//        
-//    }
+    var priorityLevel: Int?
+    var dueDate: String?
+//    var createdDate: Date?
+    
+    init(taskName: String, priorityLevel: Int, dueDate: String) {
+        self.taskName = taskName
+        self.priorityLevel = priorityLevel
+        self.dueDate = dueDate
+    }
+    
+    func saveTask() {
+        
+    }
 }

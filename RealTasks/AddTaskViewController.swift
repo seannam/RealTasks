@@ -41,6 +41,10 @@ class AddTaskViewController: UIViewController {
         let priorityLevel = prioritySegementedControl.selectedSegmentIndex
         let dueDate = dueDateTextField.text!
         
+        let task = Task(taskName: taskName, priorityLevel: priorityLevel, dueDate: dueDate)
+        task.saveTask()
+        
+        //delegate?.saveTask(task)
         delegate?.passTask(taskName, priorityLevel, dueDate)
         
         self.dismiss(animated: true, completion: nil)
