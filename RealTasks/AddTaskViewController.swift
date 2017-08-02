@@ -10,7 +10,8 @@ import UIKit
 import RealmSwift
 
 protocol AddTaskDelegate: class {
-    func passTask(_ name: String!, _ priority: Int, _ dueDate: String!)
+    func addTask(_ name: String!, _ priority: Int, _ dueDate: NSDate!)
+    //func saveTask(_ task: Task)
 }
 
 class AddTaskViewController: UIViewController {
@@ -41,23 +42,28 @@ class AddTaskViewController: UIViewController {
     @IBAction func onSaveButton(_ sender: Any) {
         let taskName = taskTextField.text!
         let priorityLevel = prioritySegementedControl.selectedSegmentIndex
-        let dueDate = dueDateTextField.text!
+        let dueDateString = dueDateTextField.text!
         
-        let task = Task(taskName: taskName, priorityLevel: priorityLevel, dueDate: dueDate)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd/yyyy"
+        let dueDate = dateFormatter.date(from: dueDateString)
+        
+        let task = Task(taskName: taskName, priorityLevel: priorityLevel, dueDate: dueDate! as NSDate)
         task.saveTask()
         
         //delegate?.saveTask(task)
-        delegate?.passTask(taskName, priorityLevel, dueDate)
+        
         
         let newTask = Todo()
         newTask.taskName = taskName
-        newTask.dueDate = dueDate
+        newTask.dueDate = dueDate! as NSDate
         newTask.priorityLevel = String(priorityLevel)
         newTask.done = false
         
         try! self.realm.write({
             self.realm.add(newTask)
             print("Adding task to Realm DB")
+            delegate?.addTask(taskName, priorityLevel, dueDate! as NSDate)
         })
         self.dismiss(animated: true, completion: nil)
     }
@@ -72,7 +78,7 @@ class AddTaskViewController: UIViewController {
     }
     func datePickerValueChanged(sender: UIDatePicker) {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = DateFormatter.Style.medium
+        dateFormatter.dateStyle = DateFormatter.Style.full
         dateFormatter.dateFormat = "MM/dd/yyyy"
         dueDateTextField.text = dateFormatter.string(from: sender.date)
     }

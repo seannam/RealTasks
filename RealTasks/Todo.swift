@@ -12,7 +12,7 @@ import RealmSwift
 class Todo: Object {
     dynamic var taskName = ""
     dynamic var priorityLevel = ""
-    dynamic var dueDate = ""
+    dynamic var dueDate = NSDate()
     dynamic var done = false
 }
 

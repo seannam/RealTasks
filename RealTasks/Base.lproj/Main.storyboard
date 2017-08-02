@@ -91,7 +91,7 @@
             </objects>
             <point key="canvasLocation" x="4818.3999999999996" y="120.08995502248877"/>
         </scene>
-        <!--Edit Task-->
+        <!--Edit Task View Controller-->
         <scene sceneID="Ohg-HP-kXS">
             <objects>
                 <viewController id="s1e-r1-A7R" customClass="EditTaskViewController" customModule="RealTasks" customModuleProvider="target" sceneMemberID="viewController">
@@ -103,12 +103,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="bmR-an-gm4">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="enter task here" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="bmR-an-gm4">
                                 <rect key="frame" x="119" y="38" width="240" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
                             </textField>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="BU0-Ts-vcJ">
                                 <rect key="frame" x="119" y="82" width="240" height="29"/>
@@ -162,7 +162,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Edit Task" id="HuD-yY-czA">
+                    <navigationItem key="navigationItem" id="HuD-yY-czA">
                         <barButtonItem key="leftBarButtonItem" title="Item" systemItem="cancel" id="aV3-G0-exC">
                             <connections>
                                 <action selector="onCancel:" destination="s1e-r1-A7R" id="4qV-Yr-b1T"/>
@@ -272,7 +272,6 @@
         <!--Navigation Controller-->
         <scene sceneID="1yZ-dQ-BYm">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="RuH-1O-E4j" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="AHv-LY-n45" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="dxt-iC-NfB">
@@ -284,6 +283,7 @@
                         <segue destination="RoH-IA-blC" kind="relationship" relationship="rootViewController" id="buM-OM-2bm"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RuH-1O-E4j" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4818" y="-628"/>
         </scene>

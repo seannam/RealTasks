@@ -9,14 +9,10 @@
 import UIKit
 import RealmSwift
 
-class ViewController: UIViewController, UITableViewDataSource {
+class ViewController: UIViewController, UITableViewDataSource, AddTaskDelegate {
 
     @IBOutlet weak var taskTableView: UITableView!
 
-//    var data = [""]
-//    var priorityList = [""]
-//    var dueDateList = [""]
-    
     var realm: Realm!
     
     var taskList: Results<Todo> {
@@ -37,22 +33,23 @@ class ViewController: UIViewController, UITableViewDataSource {
         
 
     }
-
+    override func viewDidAppear(_ animated: Bool) {
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "AddTaskSegue" || segue.identifier == "EditTaskSegue" || segue.identifier == "TaskDetailSegue" {
+            let navController = segue.destination as? UINavigationController
+            let addTaskVC = navController?.topViewController as? AddTaskViewController
 
-//        if segue.identifier == "AddTaskSegue" || segue.identifier == "EditTaskSegue" || segue.identifier == "TaskDetailSegue" {
-//            let navController = segue.destination as? UINavigationController
-//            let addTaskVC = navController?.topViewController as? AddTaskViewController
-//
-//            if let viewController = addTaskVC {
-//                viewController.delegate = self
-//            }
-//        }
+            if let viewController = addTaskVC {
+                viewController.delegate = self
+            }
+        }
         
         if segue.identifier == "TaskDetailSegue" {
             let cell = sender as! TaskCell
@@ -61,8 +58,13 @@ class ViewController: UIViewController, UITableViewDataSource {
             
             let editTaskVC = segue.destination as! EditTaskViewController
             
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "MM/dd/yyyy"
+            let dueDateString = dateFormatter.string(from: task.dueDate as Date)
+            
+            editTaskVC.dueDate = dueDateString
+            
             editTaskVC.taskName = task.taskName
-            editTaskVC.dueDate = task.dueDate
             editTaskVC.priorityLevel = Int(task.priorityLevel)
         }
 
@@ -78,8 +80,12 @@ class ViewController: UIViewController, UITableViewDataSource {
         
         let task = taskList[indexPath.row]
         
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd/yyyy"
+        let dueDateString = dateFormatter.string(from: task.dueDate as Date)
+        
         cell.nameLabel!.text = task.taskName
-        cell.dueDateLabel.text = task.dueDate
+        cell.dueDateLabel.text = dueDateString
         cell.priorityLevelLabel.text = task.priorityLevel
         
         cell.selectionStyle = UITableViewCellSelectionStyle.none
@@ -87,7 +93,6 @@ class ViewController: UIViewController, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //return data.count
         return taskList.count
     }
     
@@ -118,16 +123,17 @@ class ViewController: UIViewController, UITableViewDataSource {
         return true
     }
     
-    private func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 0.0000001
+    func addTask(_ name: String!, _ priority: Int, _ dueDate: NSDate!) {
+        
+//        let lastSectionIndex = self.taskTableView.numberOfSections - 1
+//        let lastRowIndex = self.taskTableView.numberOfRows(inSection: lastSectionIndex) - 1
+//        print("lastRowIndex=\(lastRowIndex)")
+//        let indexPath = NSIndexPath(row: lastRowIndex+1, section: lastSectionIndex) as IndexPath
+//        taskTableView.reloadRows(at: [indexPath], with: .automatic)
+        
+        self.taskTableView.insertRows(at: [IndexPath.init(row:self.taskList.count-1, section: 0)], with: .automatic)
+        print("addTask")
     }
     
-//    func passTask(_ name: String!, _ priority: Int, _ dueDate: String!) {
-//        data.append(name)
-//        priorityList.append(String(priority))
-//        dueDateList.append(dueDate)
-//        taskTableView.reloadData()
-//    }
-
 }
 

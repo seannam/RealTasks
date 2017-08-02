@@ -12,10 +12,10 @@ class Task: NSObject {
     
     var taskName: String?
     var priorityLevel: Int?
-    var dueDate: String?
+    var dueDate: NSDate?
 //    var createdDate: Date?
     
-    init(taskName: String, priorityLevel: Int, dueDate: String) {
+    init(taskName: String, priorityLevel: Int, dueDate: NSDate) {
         self.taskName = taskName
         self.priorityLevel = priorityLevel
         self.dueDate = dueDate
