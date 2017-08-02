@@ -23,7 +23,8 @@ class ViewController: UIViewController, UITableViewDataSource, AddTaskViewContro
         }
     }
     var todoList = List<Todo>()
-   
+    var items = List<Todo>()
+    
     var searchResults = try! Realm().objects(Todo.self)
     var sortedList = try! Realm().objects(Todo.self)
     
@@ -42,6 +43,9 @@ class ViewController: UIViewController, UITableViewDataSource, AddTaskViewContro
         searchController.dimsBackgroundDuringPresentation = false
         definesPresentationContext = true
         taskTableView.tableHeaderView = searchController.searchBar
+        
+        print("items")
+        print(items)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -59,13 +63,15 @@ class ViewController: UIViewController, UITableViewDataSource, AddTaskViewContro
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "AddTaskSegue" || segue.identifier == "EditTaskSegue" || segue.identifier == "TaskDetailSegue" {
+        if segue.identifier == "AddTaskSegue" || segue.identifier == "EditTaskSegue" {
             let navController = segue.destination as? UINavigationController
             let addTaskVC = navController?.topViewController as? AddTaskViewController
 
             if let viewController = addTaskVC {
                 viewController.delegate = self
             }
+            addTaskVC?.items = self.items
+            
         }
 
         if segue.identifier == "SettingsSegue" {
@@ -83,7 +89,6 @@ class ViewController: UIViewController, UITableViewDataSource, AddTaskViewContro
             let cell = sender as! TaskCell
             let indexPath = taskTableView.indexPath(for: cell)
             let task = taskList[(indexPath?.row)!]
-            
             
             let editTaskVC = segue.destination as! EditTaskViewController
             
@@ -104,12 +109,10 @@ class ViewController: UIViewController, UITableViewDataSource, AddTaskViewContro
         self.taskTableView.setEditing(!taskTableView.isEditing, animated: true)
         
         if taskTableView.isEditing == true {
-            navigationItem.rightBarButtonItems?[0] = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(editTasks(_:)))
-//            navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(editTasks(_:)))
+            navigationItem.rightBarButtonItems?[1] = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(editTasks(_:)))
         }
         if taskTableView.isEditing == false {
-            navigationItem.rightBarButtonItems?[0] = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editTasks(_:)))
-            //navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editTasks(_:)))
+            navigationItem.rightBarButtonItems?[1] = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editTasks(_:)))
         }
     }
     
@@ -157,9 +160,7 @@ class ViewController: UIViewController, UITableViewDataSource, AddTaskViewContro
         try! self.realm.write({
             task.done = !task.done
         })
-        
-        //taskTableView.deselectRow(at: indexPath, animated: true)
-        //taskTableView.reloadRows(at: [indexPath], with: .automatic)
+
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
@@ -179,22 +180,20 @@ class ViewController: UIViewController, UITableViewDataSource, AddTaskViewContro
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
 
-        try! todoList.realm?.write {
-            todoList.move(from: sourceIndexPath.row, to: destinationIndexPath.row)
+        try! self.realm?.write {
+            items.move(from: sourceIndexPath.row, to: destinationIndexPath.row)
             print("rearranging")
-            //print(todoList)
             print(sourceIndexPath.row)
             print(destinationIndexPath.row)
         }
     }
     
-    func addTask() {
+    func addTask(_ items: List<Todo>) {
         self.taskTableView.insertRows(at: [IndexPath.init(row:self.taskList.count-1, section: 0)], with: .automatic)
     }
     
     func editTask(_ taskId: String!) {
         self.taskTableView.reloadData()
-        //self.taskTableView.reloadRows(at: [IndexPath.init(row:rowIndex, section: 0)], with: .automatic)
     }
     
     func updateSearchResults(for searchController: UISearchController) {

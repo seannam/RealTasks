@@ -20,6 +20,8 @@ class Todo: Object {
     override static func primaryKey() -> String? {
         return "taskId"
     }
+    //let todoList = List<Todo>()
+    let items = List<Todo>()
     
 }
 

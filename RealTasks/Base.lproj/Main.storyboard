@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -76,16 +77,23 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <navigationItem key="navigationItem" title="Tasks" id="gpf-ao-IAq">
-                        <barButtonItem key="leftBarButtonItem" systemItem="edit" id="D9k-4m-8ht">
+                        <barButtonItem key="leftBarButtonItem" image="icons8-Settings-64" id="D9k-4m-8ht">
                             <connections>
-                                <action selector="editTasks:" destination="BYZ-38-t0r" id="fIQ-DH-aWG"/>
+                                <segue destination="xuz-E2-krw" kind="presentation" identifier="SettingsSegue" id="MFC-Rk-FCq"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="4r5-8f-1BD">
-                            <connections>
-                                <segue destination="AHv-LY-n45" kind="presentation" identifier="AddTaskSegue" id="s5W-4H-akB"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="add" id="4r5-8f-1BD">
+                                <connections>
+                                    <segue destination="AHv-LY-n45" kind="presentation" identifier="AddTaskSegue" id="s5W-4H-akB"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem systemItem="edit" id="obQ-cs-Ohx">
+                                <connections>
+                                    <action selector="editTasks:" destination="BYZ-38-t0r" id="IA2-v3-GRb"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="taskTableView" destination="00Z-rw-dTs" id="gla-co-hEb"/>
@@ -93,7 +101,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4818.3999999999996" y="120.08995502248877"/>
+            <point key="canvasLocation" x="4734" y="111"/>
         </scene>
         <!--Edit Task View Controller-->
         <scene sceneID="Ohg-HP-kXS">
@@ -187,6 +195,59 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mc9-ng-wFi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="5594" y="120"/>
+        </scene>
+        <!--Settings-->
+        <scene sceneID="xec-Ft-7RM">
+            <objects>
+                <viewController id="yfX-0s-2uD" customClass="SettingsViewController" customModule="RealTasks" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="pcc-LM-rsy"/>
+                        <viewControllerLayoutGuide type="bottom" id="Anj-jH-Aj9"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="LKy-xI-Tyf">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" translatesAutoresizingMaskIntoConstraints="NO" id="W9l-Wa-abO">
+                                <rect key="frame" x="16" y="111" width="343" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="" image="icons8-Reversed Numerical Sorting-50"/>
+                                    <segment title="" image="icons8-Numerical Sorting-50"/>
+                                    <segment title="" image="icons8-Descending Sorting-50"/>
+                                    <segment title="" image="icons8-Ascending Sorting-50"/>
+                                </segments>
+                            </segmentedControl>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Sort Settings" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gAL-Li-maK">
+                                <rect key="frame" x="137" y="72" width="101" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Settings" id="Vpm-lR-rvf">
+                        <barButtonItem key="backBarButtonItem" title="Cancel" id="dQX-6c-Sfv"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="HNL-Yy-rv5">
+                            <connections>
+                                <action selector="onCancel:" destination="yfX-0s-2uD" id="EEL-cZ-zLw"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Filter" systemItem="save" id="Eeb-HF-qDo">
+                            <connections>
+                                <action selector="onSave:" destination="yfX-0s-2uD" id="0Ei-OT-pEz"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="sortSegmentControl" destination="W9l-Wa-abO" id="paQ-Ku-xbS"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="P0p-Ka-Osf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="7488.8000000000002" y="120.08995502248877"/>
         </scene>
         <!--Add Task-->
         <scene sceneID="oyB-fF-yom">
@@ -309,5 +370,30 @@
             </objects>
             <point key="canvasLocation" x="4127" y="120"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Rhy-xv-Zf5">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="xuz-E2-krw" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="PFK-cK-lGK">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="yfX-0s-2uD" kind="relationship" relationship="rootViewController" id="kCh-iL-eO3"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HgN-ga-fan" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="6549.6000000000004" y="119.1904047976012"/>
+        </scene>
     </scenes>
+    <resources>
+        <image name="icons8-Ascending Sorting-50" width="25" height="25"/>
+        <image name="icons8-Descending Sorting-50" width="25" height="25"/>
+        <image name="icons8-Numerical Sorting-50" width="25" height="25"/>
+        <image name="icons8-Reversed Numerical Sorting-50" width="25" height="25"/>
+        <image name="icons8-Settings-64" width="32" height="32"/>
+    </resources>
 </document>

@@ -10,7 +10,7 @@ import UIKit
 import RealmSwift
 
 protocol AddTaskViewControllerDelegate: class {
-    func addTask()
+    func addTask(_ items: List<Todo>)
 }
 
 class AddTaskViewController: UIViewController {
@@ -22,7 +22,7 @@ class AddTaskViewController: UIViewController {
     weak var delegate: AddTaskViewControllerDelegate?
     
     let realm = try! Realm()
-    var tasks = List<Todo>()
+    var items = List<Todo>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,8 +66,9 @@ class AddTaskViewController: UIViewController {
         
         try! self.realm.write({
             self.realm.add(newTask)
+            //items.insert(newTask, at: items.filter("done = false").count)
             print("Adding task to Realm DB")
-            delegate?.addTask()
+            delegate?.addTask(items)
         })
         self.dismiss(animated: true, completion: nil)
     }

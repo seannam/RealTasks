@@ -25,7 +25,7 @@ class EditTaskViewController: UIViewController {
     var priorityLevel: Int?
     var dueDate: Date?
     var dueDateString: String?
-    //var index: Int!
+
     var taskId: String?
     
     var realm = try! Realm()
@@ -82,7 +82,7 @@ class EditTaskViewController: UIViewController {
         
         try! realm.write {
             delegate?.editTask(taskId)
-            print("Updating existing task to Realm DB")
+            print("Updating existing task in Realm DB")
             realm.add(updateTask, update: true)
         }
         
