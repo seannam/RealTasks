@@ -18,7 +18,7 @@ Time Spent: 11 hours
 
 Here's a walkthrough of implemented user stories:
 
-<img src='https://giphy.com/gifs/xT39DlqdZ3nli2NVVS/html5' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://media.giphy.com/media/xT39DlqdZ3nli2NVVS/giphy.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 <!-- <img src='realTasks.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
  -->
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
