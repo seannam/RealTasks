@@ -45,16 +45,30 @@ class EditTaskViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func onCancel(_ sender: Any) {
-        print("cancel")
-        self.dismiss(animated: true, completion: nil)
+    @IBAction func onPickDate(_ sender: UITextField) {
+        let datePickerView:UIDatePicker = UIDatePicker()
+        datePickerView.minimumDate = Date()
+        datePickerView.datePickerMode = UIDatePickerMode.date
+        sender.inputView = datePickerView
+        datePickerView.addTarget(self, action: #selector(self.datePickerValueChanged), for: UIControlEvents.valueChanged)
+        
     }
-    
-    @IBAction func onSave(_ sender: Any) {
-        print("saving")
-        dismiss(animated: true, completion: nil)
-        //self.dismiss(animated: true, completion: nil)
+    func datePickerValueChanged(sender: UIDatePicker) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = DateFormatter.Style.medium
+        dateFormatter.dateFormat = "MM/dd/yyyy"
+        dueDateTextField.text = dateFormatter.string(from: sender.date)
     }
+//    @IBAction func onCancel(_ sender: Any) {
+//        print("cancel")
+//        self.dismiss(animated: true, completion: nil)
+//    }
+//    
+//    @IBAction func onSave(_ sender: Any) {
+//        print("saving")
+//        dismiss(animated: true, completion: nil)
+//        //self.dismiss(animated: true, completion: nil)
+//    }
     
     /*
     // MARK: - Navigation
